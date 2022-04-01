@@ -20,3 +20,6 @@ module "backup-scheduler" {
   spanner_instance_id = "sample-instance"
 }
 ```
+
+## Reference
+https://blog.pythian.com/automated-database-backups-for-cloud-spanner-using-terraform/
