@@ -11,7 +11,7 @@
 ## Example Usage
 ```
 module "backup-scheduler" {
-  source  = "github.com/dapperlabs-platform/terraform-gcp-spanner-backup?ref=v0.1.0"
+  source  = "github.com/dapperlabs-platform/terraform-gcp-spanner-backup?ref=v0.1.1"
   database_ids = ["sampledb"]
   gcp_project_id = "sample-project"
   location = "us-central"
