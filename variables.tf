@@ -15,7 +15,7 @@ variable "schedule" {
   type        = string
   description = "schedule on which you want to call the cloud scheduler job. The below is set to run every 1 hour"
   default     = "0 1 * * *"
-  //Every Hour
+  //Every day at 1am
 }
 
 variable "time_zone" {
