@@ -14,7 +14,7 @@ variable "uniform_bucket_level_access" {
 variable "schedule" {
   type        = string
   description = "schedule on which you want to call the cloud scheduler job. The below is set to run every 1 hour"
-  default     = "0 * * * *"
+  default     = "0 1 * * *"
   //Every Hour
 }
 
