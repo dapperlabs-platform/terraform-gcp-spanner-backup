@@ -1,6 +1,10 @@
+resource "random_id" "suffix" {
+  byte_length = 8
+}
+
 # Service Accounts
 resource "google_service_account" "backup_sa" {
-  account_id   = "backup-sa"
+  account_id   = "backup-sa-${random_id.suffix.hex}"
   display_name = "Spanner Backup Function Service Account"
 }
 
