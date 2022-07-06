@@ -41,7 +41,7 @@ resource "google_cloud_scheduler_job" "backup_job" {
   for_each    = var.database_ids
   region      = var.region
   project     = var.gcp_project_id
-  name        = "${each.value}-spanner-backup-job"
+  name        = "${each.value}-spanner-backup-job-${random_id.suffix.hex}"
   description = "Backup job for database - ${each.value}"
   schedule    = var.schedule
   time_zone   = var.time_zone
@@ -54,7 +54,7 @@ resource "google_cloud_scheduler_job" "backup_job" {
 
 # Cloud Function
 resource "google_storage_bucket" "bucket_gcf_source" {
-  name                        = "${var.gcp_project_id}-gcp-ssb-source"
+  name                        = "${var.gcp_project_id}-gcp-ssb-source-${random_id.suffix.hex}"
   storage_class               = "REGIONAL"
   location                    = var.region
   force_destroy               = "true"
@@ -75,7 +75,7 @@ resource "google_storage_bucket_object" "gcs_functions_backup_source" {
 
 resource "google_cloudfunctions_function" "spanner_backup_function" {
   for_each            = var.database_ids
-  name                = "${each.value}-SpannerCreateBackup"
+  name                = "${each.value}-SpannerCreateBackup-${random_id.suffix.hex}"
   project             = var.gcp_project_id
   region              = var.region
   available_memory_mb = "256"
