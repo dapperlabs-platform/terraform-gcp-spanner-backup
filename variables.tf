@@ -53,7 +53,8 @@ variable "create_app_engine_app" {
   description = <<EOT
   Create project App Engine application. 
   There can only be 1 per project, set this to false on 2nd+ uses.
-  Defaults to true for backward compatibility.
+  Defaults to false assuming an app engine app already exists.
+  Set to true when using this module for the first time if an app engine does not exist in your project.
   EOT
-  default     = true
+  default     = false
 }
