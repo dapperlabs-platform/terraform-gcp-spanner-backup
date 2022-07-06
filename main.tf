@@ -32,6 +32,7 @@ resource "google_pubsub_topic_iam_member" "backup_sa_pubsub_sub_iam" {
 
 # Cloud Scheduler
 resource "google_app_engine_application" "app" {
+  count       = var.create_app_engine_app ? 1 : 0
   project     = var.gcp_project_id
   location_id = var.location
 }
