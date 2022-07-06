@@ -46,3 +46,14 @@ variable "location" {
   type        = string
   description = "location for App Engine"
 }
+
+# TODO re-evaluate backup strategy
+variable "create_app_engine_app" {
+  type        = bool
+  description = <<EOT
+  Create project App Engine application. 
+  There can only be 1 per project, set this to false on 2nd+ uses.
+  Defaults to true for backward compatibility.
+  EOT
+  default     = true
+}
