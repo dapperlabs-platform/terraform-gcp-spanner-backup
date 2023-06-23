@@ -1,6 +1,6 @@
 locals {
   backup_name = "${var.instance_name}-backup"
-  workflow_argument = [
+  backup_args = [
     for v in var.database_names : {
       backupId    = "${var.instance_name}-${v}-backup",
       database    = "projects/${var.project_name}/instances/${var.instance_name}/databases/${v}",
@@ -31,28 +31,28 @@ module "workflow_service_account" {
   }
 }
 
-module "workflow" {
-  source                 = "github.com/GoogleCloudPlatform/terraform-google-cloud-workflows?ref=v0.1.0"
-  project_id             = var.project_name
-  workflow_name          = "${local.backup_name}-workflow"
-  region                 = var.backup_schedule_region
-  service_account_email  = module.workflow_service_account.email
-  service_account_create = false
+# module "workflow" {
+#   source                 = "github.com/GoogleCloudPlatform/terraform-google-cloud-workflows?ref=v0.1.0"
+#   project_id             = var.project_name
+#   workflow_name          = "${local.backup_name}-workflow"
+#   region                 = var.backup_schedule_region
+#   service_account_email  = module.workflow_service_account.email
+#   service_account_create = false
 
-  workflow_trigger = {
-    cloud_scheduler = {
-      name                  = "${local.backup_name}-job"
-      cron                  = var.backup_schedule
-      time_zone             = var.backup_time_zone
-      deadline              = var.backup_deadline
-      service_account_email = module.scheduler_service_account.email
-      argument              = jsonencode(local.workflow_argument)
-    }
-  }
-  workflow_source = file("${path.module}/spanner_backup.yaml")
+#   workflow_trigger = {
+#     cloud_scheduler = {
+#       name                  = "${local.backup_name}-job"
+#       cron                  = var.backup_schedule
+#       time_zone             = var.backup_time_zone
+#       deadline              = var.backup_deadline
+#       service_account_email = module.scheduler_service_account.email
+#       argument              = jsonencode(local.backup_args)
+#     }
+#   }
+#   workflow_source = file("${path.module}/spanner_backup.yaml")
 
-  depends_on = [
-    module.scheduler_service_account,
-    module.workflow_service_account
-  ]
-}
+#   depends_on = [
+#     module.scheduler_service_account,
+#     module.workflow_service_account
+#   ]
+# }
