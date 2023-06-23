@@ -1,5 +1,5 @@
 locals {
-  backup_name = "${var.instance_name}-backup"
+  backup_name = "${var.instance_name}"
   backup_args = [
     for v in var.database_names : {
       backupId    = "${var.instance_name}-${v}-backup",
@@ -12,7 +12,7 @@ locals {
 module "scheduler_service_account" {
   source     = "github.com/dapperlabs-platform/terraform-google-iam-service-account?ref=v1.1.8"
   project_id = var.project_name
-  name       = "${local.backup_name}-scheduler"
+  name       = "${var.instance_name}-scheduler"
   iam_project_roles = {
     "${var.project_name}" = [
       "roles/workflows.invoker"
@@ -23,7 +23,7 @@ module "scheduler_service_account" {
 module "workflow_service_account" {
   source     = "github.com/dapperlabs-platform/terraform-google-iam-service-account?ref=v1.1.8"
   project_id = var.project_name
-  name       = "${local.backup_name}-workflow"
+  name       = "${var.instance_name}-workflow"
   iam_project_roles = {
     "${var.project_name}" = [
       "roles/spanner.backupAdmin"
@@ -34,14 +34,14 @@ module "workflow_service_account" {
 # module "workflow" {
 #   source                 = "github.com/GoogleCloudPlatform/terraform-google-cloud-workflows?ref=v0.1.0"
 #   project_id             = var.project_name
-#   workflow_name          = "${local.backup_name}-workflow"
+#   workflow_name          = "${var.instance_name}-workflow"
 #   region                 = var.backup_schedule_region
 #   service_account_email  = module.workflow_service_account.email
 #   service_account_create = false
 
 #   workflow_trigger = {
 #     cloud_scheduler = {
-#       name                  = "${local.backup_name}-job"
+#       name                  = "${var.instance_name}-job"
 #       cron                  = var.backup_schedule
 #       time_zone             = var.backup_time_zone
 #       deadline              = var.backup_deadline
