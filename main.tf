@@ -13,22 +13,24 @@ module "scheduler_service_account" {
   source     = "github.com/dapperlabs-platform/terraform-google-iam-service-account?ref=v1.1.8"
   project_id = var.project_name
   name       = "${var.instance_name}-scheduler"
-  iam_project_roles = {
-    "${var.project_name}" = [
-      "roles/workflows.invoker"
-    ]
-  }
+}
+
+resource "google_project_iam_member" "scheduler_workflow_invoker" {
+  project = var.project_name
+  role    = "roles/workflows.invoker"
+  member  = module.scheduler_service_account.email
 }
 
 module "workflow_service_account" {
   source     = "github.com/dapperlabs-platform/terraform-google-iam-service-account?ref=v1.1.8"
   project_id = var.project_name
   name       = "${var.instance_name}-workflow"
-  iam_project_roles = {
-    "${var.project_name}" = [
-      "roles/spanner.backupAdmin"
-    ]
-  }
+}
+
+resource "google_project_iam_member" "workflow_spanner_backup_admin" {
+  project = var.project_name
+  role    = "roles/spanner.backupAdmin"
+  member  = module.workflow_service_account.email
 }
 
 module "workflow" {
