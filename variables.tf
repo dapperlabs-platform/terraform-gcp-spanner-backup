@@ -1,60 +1,44 @@
-variable "gcp_project_id" {
-  type = string
-}
-
-variable "region" {
-  type = string
-}
-
-variable "uniform_bucket_level_access" {
-  type    = bool
-  default = false
-}
-
-variable "schedule" {
+variable "backup_deadline" {
+  description = "The deadline for the backup schedule"
   type        = string
-  description = "schedule on which you want to call the cloud scheduler job. The below is set to run every 1 hour"
-  default     = "0 1 * * *"
-  //Every day at 1am
+  default     = "320s"
 }
 
-variable "time_zone" {
-  type    = string
-  default = "America/Vancouver"
+variable "backup_expire_time" {
+  description = "Seconds until the backup expires"
+  type        = number
+  default     = 86400
 }
 
-variable "pubsub_topic" {
-  type = string
-}
-
-variable "local_output_path" {
-  type    = string
-  default = "build"
-}
-
-variable "database_ids" {
-  type        = set(string)
-  description = "Spanner Databases you want to backup"
-}
-
-variable "spanner_instance_id" {
+variable "backup_schedule" {
+  description = "The Backup Schedule in CRON format"
   type        = string
-  description = "Spanner Instance ID where you database is located that you want to backup"
+  default     = "0 0 * * *"
 }
 
-variable "location" {
+variable "backup_schedule_region" {
+  description = "The schedule to be enabled on scheduler to trigger spanner DB backup"
   type        = string
-  description = "location for App Engine"
+  default     = "us-west1"
 }
 
-# TODO re-evaluate backup strategy
-variable "create_app_engine_app" {
-  type        = bool
-  description = <<EOT
-  Create project App Engine application. 
-  There can only be 1 per project, set this to false on 2nd+ uses.
-  Defaults to false assuming an app engine app already exists.
-  Set to true when using this module for the first time if an app engine does not exist in your project.
-  EOT
-  default     = false
+variable "backup_time_zone" {
+  description = "The timezone to be used for the backup schedule"
+  type        = string
+  default     = "America/Vancouver"
+}
+
+variable "database_names" {
+  description = "The databases to backup"
+  type        = list(string)
+}
+
+variable "instance_name" {
+  description = "The instance containing the database to backup"
+  type        = string
+}
+
+variable "project_name" {
+  description = "The project name to deploy to"
+  type        = string
 }
