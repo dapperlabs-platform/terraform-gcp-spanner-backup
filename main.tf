@@ -32,16 +32,16 @@ module "workflow_service_account" {
 }
 
 module "workflow" {
-  source                 = "github.com/GoogleCloudPlatform/terraform-google-cloud-workflows?ref=v0.1.0"
+  source                 = "github.com/GoogleCloudPlatform/terraform-google-cloud-workflows?ref=main"
   project_id             = var.project_name
-  workflow_name          = "${var.instance_name}-workflow"
+  workflow_name          = "${var.instance_name}-backup-workflow"
   region                 = var.backup_schedule_region
   service_account_email  = module.workflow_service_account.email
   service_account_create = false
 
   workflow_trigger = {
     cloud_scheduler = {
-      name                  = "${var.instance_name}-job"
+      name                  = "${var.instance_name}-backup-job"
       cron                  = var.backup_schedule
       time_zone             = var.backup_time_zone
       deadline              = var.backup_deadline
