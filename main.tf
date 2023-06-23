@@ -18,7 +18,7 @@ module "scheduler_service_account" {
 resource "google_project_iam_member" "scheduler_workflow_invoker" {
   project = var.project_name
   role    = "roles/workflows.invoker"
-  member  = module.scheduler_service_account.email
+  member  = module.scheduler_service_account.iam_email
 }
 
 module "workflow_service_account" {
@@ -30,7 +30,7 @@ module "workflow_service_account" {
 resource "google_project_iam_member" "workflow_spanner_backup_admin" {
   project = var.project_name
   role    = "roles/spanner.backupAdmin"
-  member  = module.workflow_service_account.email
+  member  = module.workflow_service_account.iam_email
 }
 
 module "workflow" {
