@@ -32,7 +32,7 @@ module "workflow_service_account" {
 }
 
 module "workflow" {
-  source                 = "github.com/GoogleCloudPlatform/terraform-google-cloud-workflows?ref=main"
+  source                 = "github.com/dapperlabs-platform/terraform-google-cloud-workflows?ref=v0.1.0"
   project_id             = var.project_name
   workflow_name          = "${var.instance_name}-backup-workflow"
   region                 = var.backup_schedule_region
