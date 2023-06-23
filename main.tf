@@ -1,12 +1,12 @@
 locals {
   backup_name = "${var.instance_name}-backup"
-  workflow_argument = jsonencode([
+  workflow_argument = [
     for v in var.database_names : {
       backupId    = "${var.instance_name}-${v}-backup",
       database    = "projects/${var.project_name}/instances/${var.instance_name}/databases/${v}",
       expire_time = var.backup_expire_time,
       parent      = "projects/${var.project_name}/instances/${var.instance_name}",
-  }])
+  }]
 }
 
 module "scheduler_service_account" {
@@ -46,7 +46,7 @@ module "workflow" {
       time_zone             = var.backup_time_zone
       deadline              = var.backup_deadline
       service_account_email = module.scheduler_service_account.email
-      argument              = local.workflow_argument
+      argument              = jsonencode(local.workflow_argument)
     }
   }
   workflow_source = file("${path.module}/spanner_backup.yaml")
