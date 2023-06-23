@@ -46,7 +46,7 @@ module "workflow" {
       time_zone             = var.backup_time_zone
       deadline              = var.backup_deadline
       service_account_email = module.scheduler_service_account.email
-      argument              = var.workflow_argument
+      argument              = local.workflow_argument
     }
   }
   workflow_source = file("${path.module}/spanner_backup.yaml")
