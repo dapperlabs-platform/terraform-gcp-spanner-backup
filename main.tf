@@ -36,7 +36,7 @@ module "workflow" {
   project_id             = var.project_name
   workflow_name          = "${local.backup_name}-workflow"
   region                 = var.backup_schedule_region
-  service_account_email  = module.service_account_workflow.email
+  service_account_email  = module.workflow_service_account.email
   service_account_create = false
 
   workflow_trigger = {
@@ -45,14 +45,14 @@ module "workflow" {
       cron                  = var.backup_schedule
       time_zone             = var.backup_time_zone
       deadline              = var.backup_deadline
-      service_account_email = module.service_account_scheduler.email
+      service_account_email = module.scheduler_service_account.email
       argument              = var.workflow_argument
     }
   }
   workflow_source = file("${path.module}/spanner_backup.yaml")
 
   depends_on = [
-    module.service_account_scheduler,
-    module.service_account_workflow
+    module.scheduler_service_account,
+    module.workflow_service_account
   ]
 }
