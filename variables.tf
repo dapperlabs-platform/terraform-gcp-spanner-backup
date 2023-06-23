@@ -4,12 +4,6 @@ variable "backup_deadline" {
   default     = "320s"
 }
 
-variable "backup_enabled" {
-  description = "Whether to enable the backup schedule"
-  type        = bool
-  default     = true
-}
-
 variable "backup_expire_time" {
   description = "Seconds until the backup expires"
   type        = number
