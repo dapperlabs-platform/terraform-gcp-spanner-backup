@@ -2,7 +2,7 @@ locals {
   backup_name = "${var.instance_name}-backup"
   workflow_argument = jsonencode([
     for v in var.database_names : {
-      backupId    = "${var.instance_name}-${k}-backup",
+      backupId    = "${var.instance_name}-${v}-backup",
       database    = "projects/${var.project_name}/instances/${var.instance_name}/databases/${v}",
       expire_time = var.backup_expire_time,
       parent      = "projects/${var.project_name}/instances/${var.instance_name}",
