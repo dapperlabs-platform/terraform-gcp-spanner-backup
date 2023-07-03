@@ -28,7 +28,7 @@ main:
                 call: create_backup
                 args:
                     parent: ${eachValue.parent}
-                    backupId: ${eachValue.backupId}
+                    backupId: '${eachValue.backupId}-${time.format(sys.now())}'
                     database: ${eachValue.database}
                     expireTime: ${time.format(sys.now() + eachValue.expireTime)}
                 result: backup_result
