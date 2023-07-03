@@ -28,7 +28,7 @@ main:
                 call: create_backup
                 args:
                     parent: ${eachValue.parent}
-                    backupId: '${eachValue.backupId}-${time.format(sys.now())}'
+                    backupId: ${eachValue.backupId}
                     database: ${eachValue.database}
                     expireTime: ${time.format(sys.now() + eachValue.expireTime)}
                 result: backup_result
@@ -45,7 +45,7 @@ create_backup:
         call: googleapis.spanner.v1.projects.instances.backups.create
         args:
             parent: ${parent}
-            backupId: ${backupId}
+            backupId: ${backupId + "-" + time.format(sys.now())}
             body:
                 database: ${database}
                 expireTime: ${expireTime}
