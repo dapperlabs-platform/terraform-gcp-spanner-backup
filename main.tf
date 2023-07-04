@@ -2,7 +2,7 @@ locals {
   backup_name = var.instance_name
   backup_args = [
     for v in var.database_names : {
-      backupId   = "${var.instance_name}-${v}-backup",
+      backupId   = "${var.instance_name}-${v}",
       database   = "projects/${var.project_name}/instances/${var.instance_name}/databases/${v}",
       expireTime = var.backup_expire_time,
       parent     = "projects/${var.project_name}/instances/${var.instance_name}",
