@@ -33,6 +33,12 @@ variable "database_names" {
   type        = list(string)
 }
 
+variable "instance_alias_name" {
+  description = "The alias to use for the instance name when generating dependent resources"
+  type        = string
+  default     = ""
+}
+
 variable "instance_name" {
   description = "The instance containing the database to backup"
   type        = string
