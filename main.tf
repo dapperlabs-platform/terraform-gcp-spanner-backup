@@ -35,7 +35,7 @@ resource "google_project_iam_member" "workflow_spanner_backup_admin" {
 }
 
 module "workflow" {
-  source                 = "github.com/dapperlabs-platform/terraform-google-cloud-workflows?ref=v0.1.1"
+  source                 = "github.com/dapperlabs-platform/terraform-google-cloud-workflows?ref=v0.1.2"
   project_id             = var.project_name
   workflow_name          = "${local.instance_alias_name}-backup-workflow"
   region                 = var.backup_schedule_region
